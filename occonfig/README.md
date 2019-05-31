@@ -18,17 +18,18 @@ It provides the following initialization options:
 
 * ``OC_TRACE_EXPORTER`` (required for tracing)
 
-   * ``stackdriver://demo-project-id``: StackDriver
-   * ``sd://demo-project-id`` : short form of stackdriver
+   * ``stackdriver://demo-project-id``: Stackdriver
+   * ``sd://demo-project-id`` : short form of Stackdriver
    * ``datadog://localhost:8126`` or ``dd://localhost:8126`` : DataDog
    * ``datadog`` or ``dd`` : DataDog (default host:port is localhost:8126)
    * ``xray``: AWS X-Ray
    * ``jaeger://localhost:6831`` : Jaeger
    * ``jaeger://localhost`` : Jaeger (default port is 6831)
-   * ``jaeger`` : Jaeger (default host is localhost:6831)
-   * ``zipkin://localhost:9411/api/v2/spans`` : Zipkin (default port is 9411)
+   * ``jaeger`` : Jaeger (default host:port is localhost:6831)
+   * ``zipkin://localhost:9411/api/v2/spans`` : Zipkin
    * ``zipkin://localhost/api/v2/spans`` : Zipkin (default port is 9411)
    * ``zipkin://localhost`` : Zipkin (default port is 9411, default path is /api/v2/spans)
+   * ``zap``: Export to console via [zap](https://godoc.org/go.uber.org/zap)
    * ``honeycomb`` : HoneyComb
 
 * ``OC_TRACE_SAMPLER``
@@ -56,7 +57,7 @@ $ ./your-program
 * Common Settings
 
    * ``-oc-service-name``: Service name
-   * ``-oc-service-url``: Service name
+   * ``-oc-service-url``: Service URL
    * ``-oc-config-json``: JSON file path for settings (see below)
 
 * For tracer
@@ -74,7 +75,7 @@ $ ./your-program -oc-trace-exporter stackdriver://demo-project-id -oc-service-na
 * Common Settings
 
    * ``--oc-service-name``: Service name
-   * ``--oc-service-url``: Service name
+   * ``--oc-service-url``: Service URL
    * ``--oc-config-json``: JSON file path for settings (see below)
 
 * For tracer
@@ -106,14 +107,14 @@ Extends specified base JSON.
 }
 ```
 
-## Priority of configs
+## Priority of configs (small number is higher priority)
 
 1. Commnadline options
-2. JSON file that is specified at ``extends`` in the file of commandline option ``--oc-config-json``
-3. JSON file that is specified at commandline option ``--oc-config-json``
+2. JSON file that is specified at commandline option ``--oc-config-json``
+3. JSON file that is specified at ``extends`` in the file of commandline option ``--oc-config-json``
 4. Environment variables
-5. JSON file that is specified at ``extends`` in the file of environment variable ``OC_CONFIG_JSON``
-6. JSON file that is specified at environment variable ``OC_CONFIG_JSON``
+5. JSON file that is specified at environment variable ``OC_CONFIG_JSON``
+6. JSON file that is specified at ``extends`` in the file of environment variable ``OC_CONFIG_JSON``
 
 ## Tool settings for Local development users
 
@@ -188,7 +189,7 @@ import (
 )
 
 // Usage 1: Only support EnvVar
-func init() {
+func main() {
 	// configuration via Environment Variables
 	finalizer, err := occonfig.Init(occonfig.Trace | occonfig.Stats)
 	if err != nil {
@@ -201,7 +202,7 @@ func init() {
 
 // Usage 2: Support EnvVar and flag as an option parser
 func main() {
-	// Call it befor flag.Parse()
+	// Call it before flag.Parse()
 	occonfig.UseFlag(occonfig.Trace)
 	
 	flag.Parse()
@@ -218,7 +219,7 @@ func main() {
 
 // Usage 3: Support EnvVar and kingpin.v2 as an option parser
 func main() {
-	// Call it befor flag.Parse()
+	// Call it before kingpin.Parse()
 	occonfig.UseKingpin(occonfig.Stats)
 	
 	kingpin.Parse()
