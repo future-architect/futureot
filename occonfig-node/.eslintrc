@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    "prettier"
+  ],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "no-console": 0, 
+    "@typescript-eslint/indent": 0,
+    "prettier/prettier": 2
+  }
+}
