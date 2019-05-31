@@ -29,6 +29,7 @@ func TestSelectTraceExporterOK(t *testing.T) {
 		{"zipkin://localhost", ZIPKIN, "http://localhost:9411/api/v2/spans"},
 		{"zipkin://localhost/", ZIPKIN, "http://localhost:9411/"},
 		{"zipkin", ZIPKIN, "http://localhost:9411/api/v2/spans"},
+		{"zap", ZAP, ""},
 	}
 	for _, testcase := range testcases {
 		t.Run(testcase.Source, func(t *testing.T) {

@@ -22,6 +22,7 @@ import (
 	"contrib.go.opencensus.io/exporter/jaeger"
 	"contrib.go.opencensus.io/exporter/prometheus"
 	"contrib.go.opencensus.io/exporter/zipkin"
+	"github.com/future-architect/futureot/exporters/opencensus-go-exporter-zap"
 )
 
 type Mode int
@@ -194,6 +195,10 @@ func Init(mode Mode) (OCConfig, error) {
 				ze := zipkin.NewExporter(reporter, localEndpoint)
 
 				trace.RegisterExporter(ze)
+			}
+		case ZAP:
+			{
+				trace.RegisterExporter(zap.NewZapTraceExporter())
 			}
 		}
 

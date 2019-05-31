@@ -1,0 +1,7 @@
+{
+  "serviceName": "my-service-name-at-file",
+  "trace": {
+    "exporter": "stackdriver://demo-project-id",
+    "honeycombWriteKey": "file://./honeycomb.key"
+  }
+}

@@ -18,6 +18,7 @@ const (
 	HONEYCOMB
 	PROMETHEUS
 	GRAPHITE
+	ZAP
 )
 
 type Exporter struct {
@@ -123,6 +124,10 @@ func SelectTraceExporter(host string) (*Exporter, error) {
 			return &Exporter{
 				Type: ZIPKIN,
 				Host: "http://localhost:9411/api/v2/spans",
+			}, nil
+		case "zap":
+			return &Exporter{
+				Type: ZAP,
 			}, nil
 		}
 	}

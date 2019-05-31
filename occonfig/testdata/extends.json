@@ -1,0 +1,4 @@
+{
+  "extends": "./config.json",
+  "serviceName": "my-service-name-at-extends-json"
+}
