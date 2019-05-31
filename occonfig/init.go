@@ -19,9 +19,9 @@ import (
 	honeycomb "github.com/honeycombio/opencensus-exporter/honeycomb"
 	openzipkin "github.com/openzipkin/zipkin-go"
 	zipkinHTTP "github.com/openzipkin/zipkin-go/reporter/http"
-	"go.opencensus.io/exporter/jaeger"
-	"go.opencensus.io/exporter/prometheus"
-	"go.opencensus.io/exporter/zipkin"
+	"contrib.go.opencensus.io/exporter/jaeger"
+	"contrib.go.opencensus.io/exporter/prometheus"
+	"contrib.go.opencensus.io/exporter/zipkin"
 )
 
 type Mode int

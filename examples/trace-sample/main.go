@@ -5,11 +5,12 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/future-architect/futureot/occonfig"
 	"go.opencensus.io/trace"
 	"gopkg.in/alecthomas/kingpin.v2"
-	"log"
-	"time"
 )
 
 func main() {

@@ -110,10 +110,10 @@ Extends specified base JSON.
 
 1. Commnadline options
 2. JSON file that is specified at ``extends`` in the file of commandline option ``--oc-config-json``
-2. JSON file that is specified at commandline option ``--oc-config-json``
-3. Environment variables
-4. JSON file that is specified at ``extends`` in the file of environment variable ``OC_CONFIG_JSON``
-4. JSON file that is specified at environment variable ``OC_CONFIG_JSON``
+3. JSON file that is specified at commandline option ``--oc-config-json``
+4. Environment variables
+5. JSON file that is specified at ``extends`` in the file of environment variable ``OC_CONFIG_JSON``
+6. JSON file that is specified at environment variable ``OC_CONFIG_JSON``
 
 ## Tool settings for Local development users
 

@@ -13,4 +13,8 @@
 
 .idea
 
-examples/stats-dample/data
+examples/stats-sample/data
+examples/stats-sample/stats-sample
+examples/stats-sample/stats-sample.exe
+examples/trace-sample/trace-sample
+examples/trace-sample/trace-sample.exe

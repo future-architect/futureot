@@ -1,4 +1,4 @@
-module github.com/shibukawa/ocinit
+module github.com/future-architect/futureot/occonfig
 
 go 1.12
 

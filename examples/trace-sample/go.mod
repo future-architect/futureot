@@ -2,10 +2,13 @@ module trace-sample
 
 go 1.12
 
+replace github.com/future-architect/futureot/occonfig => ../../occonfig
+
 require (
-	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc // indirect
-	github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf // indirect
-	github.com/stretchr/testify v1.3.0 // indirect
+	contrib.go.opencensus.io/exporter/jaeger v0.1.0 // indirect
+	contrib.go.opencensus.io/exporter/prometheus v0.1.0 // indirect
+	contrib.go.opencensus.io/exporter/zipkin v0.1.1 // indirect
+	github.com/future-architect/futureot/occonfig v0.0.0-00010101000000-000000000000
 	go.opencensus.io v0.22.0
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 )
