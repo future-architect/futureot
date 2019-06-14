@@ -271,7 +271,6 @@ func Init(mode Mode) (OCConfig, error) {
 						return finalizer, fmt.Errorf("Failed to parse ZPage URL: %v", err)
 					}
 					if z.Port() == u.Port() {
-						printZPageInformation(z)
 						if z.Path == "/metrics" {
 							return finalizer, fmt.Errorf("ZPage and Prometheus uses same endpoints: %v", err)
 						}
@@ -288,7 +287,7 @@ func Init(mode Mode) (OCConfig, error) {
 					mux.Handle("/metrics", pe)
 					fmt.Fprintf(os.Stderr, "Start waiting Prometheus access at :%s/metrics\n", u.Port())
 					if z != nil {
-						fmt.Fprintf(os.Stderr, "zPath path :%s/%s\n", u.Port(), z.Path)
+						printZPageInformation(z)
 						zpages.Handle(mux, z.Path)
 					}
 					if err := http.ListenAndServe(":"+u.Port(), mux); err != nil {
@@ -320,7 +319,6 @@ func Init(mode Mode) (OCConfig, error) {
 		go func() {
 			mux := http.NewServeMux()
 			zpages.Handle(mux, z.Path)
-			fmt.Fprintf(os.Stderr, "zPath path :%s/%s\n", z.Port(), z.Path)
 			if err := http.ListenAndServe(":"+z.Port(), mux); err != nil {
 				log.Fatalf("Failed to run ZPage %s endpoint: %v", z.Path, err)
 			}

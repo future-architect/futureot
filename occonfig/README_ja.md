@@ -40,6 +40,19 @@
 
 * ``OC_HONEYCOMB_WRITE_KEY``: honeycomb.io APIキー。もし、値が　``file://``　から始まっていたら、ローカルのファイルを探索する。
 
+* ``OC_STATS_EXPORTER``: メトリックスに必要
+
+   * ``stackdriver://demo-project-id``: Stackdriver
+   * ``sd://demo-project-id`` : short form of Stackdriver
+   * ``datadog://localhost:8126`` or ``dd://localhost:8126`` : DataDog
+   * ``datadog`` or ``dd`` : DataDog (default host:port is localhost:8126)
+   * ``prometheus://:8888`` : Prometheus（このポートはPrometheusがデータを取りに来るアプリケーション側のポートです）
+   * ``p8s://:8888`` : PrometheusこのポートはPrometheusがデータを取りに来るアプリケーション側のポートです）
+   * ``graphite`` : Graphite (デフォルトのホスト:ポートはlocalhost:2003)
+   * ``graphite://localhost:2003`` : Graphite
+
+* ``OC_ZPAGE``: ZPageのURL。例: ``http://:8888/debug``
+
 ### 一般的な利用方法
 
 #### 環境変数経由
@@ -57,11 +70,16 @@ $ ./your-program
    * ``-oc-service-name``: サービス名
    * ``-oc-service-url``: サービスURL
    * ``-oc-config-json``: JSON形式の設定ファイルのパス（後述）
+   * ``-oc-zpage``      : ZPageサービスのURL
 
 * トレースの設定
 
    * ``-oc-honeycomb-write-key``: honeycomb.ioのキーファイルパス
    * ``-oc-trace-exporter``: エクスポーター設定
+
+* メトリックスの設定
+
+   * ``-oc-stats-exporter``: エクスポーターの設定
 
 ```bash
 # flagパッケージサポート
@@ -75,11 +93,17 @@ $ ./your-program -oc-trace-exporter stackdriver://demo-project-id -oc-service-na
    * ``--oc-service-name``: サービス名
    * ``--oc-service-url``: サービスURL
    * ``--oc-config-json``: JSON形式の設定ファイルのパス（後述）
+   * ``--oc-zpage``      : ZPageサービスのURL
 
 * トレースの設定
 
    * ``--oc-trace-exporter``: エクスポーターの設定
    * ``--oc-honeycomb-write-key``: honeycomb.ioのキーファイルパス
+
+* メトリックスの設定
+
+   * ``--oc-stats-exporter``: エクスポーターの設定
+
 
 ```
 # kingpin.v2パッケージサポート

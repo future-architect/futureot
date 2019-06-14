@@ -53,6 +53,8 @@ It provides the following initialization options:
    * ``graphite`` : Graphite (default host:port is localhost:2003)
    * ``graphite://localhost:2003`` : Graphite
 
+* ``OC_ZPAGE``: ZPage url like ``http://:8888/debug``
+
 ### Typical Usage for commandline
 
 #### Via Einvironment Variables
@@ -70,11 +72,16 @@ $ ./your-program
    * ``-oc-service-name``: Service name
    * ``-oc-service-url``: Service URL
    * ``-oc-config-json``: JSON file path for settings (see below)
+   * ``-oc-zpage``      : ZPage service URL
 
 * For tracer
 
    * ``-oc-honeycomb-write-key``: honeycomb.io write key file path
    * ``-oc-trace-exporter``: Exporter setting
+
+* For metrics
+
+   * ``-oc-stats-exporter``: Exporter setting
 
 ```bash
 # flag package support
@@ -88,11 +95,16 @@ $ ./your-program -oc-trace-exporter stackdriver://demo-project-id -oc-service-na
    * ``--oc-service-name``: Service name
    * ``--oc-service-url``: Service URL
    * ``--oc-config-json``: JSON file path for settings (see below)
+   * ``--oc-zpage``      : ZPage service URL
 
 * For tracer
 
    * ``--oc-trace-exporter``: Exporter setting
    * ``--oc-honeycomb-write-key``: honeycomb.io write key file path
+
+* For metrics
+
+   * ``--oc-stats-exporter``: Exporter setting
 
 ```
 # kingpin.v2 package support
@@ -110,6 +122,7 @@ Extends specified base JSON.
   "service-name": "my-awesome-service",
   "service-url":  "http://localhost:8080",
   "extends": "../config.json",
+  "zpage": "http://:8080/debug",
   "trace": {
     "exporter": "stackdriver://demo-project-id",
     "honeycomb-write-key": "honeycomb.key",
