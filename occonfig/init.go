@@ -22,6 +22,7 @@ import (
 	"contrib.go.opencensus.io/exporter/jaeger"
 	"contrib.go.opencensus.io/exporter/prometheus"
 	"contrib.go.opencensus.io/exporter/zipkin"
+	"contrib.go.opencensus.io/exporter/graphite"
 	"github.com/future-architect/futureot/exporters/opencensus-go-exporter-zap"
 )
 
@@ -285,7 +286,9 @@ func Init(mode Mode) (OCConfig, error) {
 				go func() {
 					mux := http.NewServeMux()
 					mux.Handle("/metrics", pe)
+					fmt.Fprintf(os.Stderr, "Start waiting Prometheus access at :%s/metrics\n", u.Port())
 					if z != nil {
+						fmt.Fprintf(os.Stderr, "zPath path :%s/%s\n", u.Port(), z.Path)
 						zpages.Handle(mux, z.Path)
 					}
 					if err := http.ListenAndServe(":"+u.Port(), mux); err != nil {
@@ -293,6 +296,14 @@ func Init(mode Mode) (OCConfig, error) {
 					}
 					<-exit
 				}()
+			}
+		case GRAPHITE:
+			{
+				ge, err := graphite.NewExporter(graphite.Options{Namespace: config.ServiceName})
+				if err != nil {
+					return finalizer, fmt.Errorf("Failed to create Graphite exporter: %v", err)
+				}
+				view.RegisterExporter(ge)
 			}
 		}
 	}
@@ -309,6 +320,7 @@ func Init(mode Mode) (OCConfig, error) {
 		go func() {
 			mux := http.NewServeMux()
 			zpages.Handle(mux, z.Path)
+			fmt.Fprintf(os.Stderr, "zPath path :%s/%s\n", z.Port(), z.Path)
 			if err := http.ListenAndServe(":"+z.Port(), mux); err != nil {
 				log.Fatalf("Failed to run ZPage %s endpoint: %v", z.Path, err)
 			}

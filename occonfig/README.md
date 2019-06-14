@@ -42,6 +42,17 @@ It provides the following initialization options:
     the value starts ``file://``,
     this library searches local file.
 
+* ``OC_STATS_EXPORTER``: (required for metrics)
+
+   * ``stackdriver://demo-project-id``: Stackdriver
+   * ``sd://demo-project-id`` : short form of Stackdriver
+   * ``datadog://localhost:8126`` or ``dd://localhost:8126`` : DataDog
+   * ``datadog`` or ``dd`` : DataDog (default host:port is localhost:8126)
+   * ``prometheus://:8888`` : Prometheus (the port is application's port the Prometheus will access to pull data)
+   * ``p8s://:8888`` : Prometheus (the port is application's port the Prometheus will access to pull data)
+   * ``graphite`` : Graphite (default host:port is localhost:2003)
+   * ``graphite://localhost:2003`` : Graphite
+
 ### Typical Usage for commandline
 
 #### Via Einvironment Variables
@@ -123,7 +134,7 @@ Extends specified base JSON.
 #### Docker
 
 ```bash
-$ docker run -d --name jaeger -p 14268:14268 -p 16686:16686 jaegertracing/all-in-one:1.12
+$ docker run -d --name jaeger --rm -p 14268:14268 -p 16686:16686 jaegertracing/all-in-one:1.12
 $ OC_TRACE_EXPORTER=jaeger ./your-program
 ```
 
@@ -153,7 +164,7 @@ services:
 #### Docker
 
 ```bash
-$ docker run -d -p 9411:9411 openzipkin/zipkin
+$ docker run -d --name zipkin --rm  -p 9411:9411 openzipkin/zipkin
 $ OC_TRACE_EXPORTER=zipkin ./your-program
 ```
 
@@ -175,6 +186,95 @@ services:
       - OC_SERVICE_URL=http://localhost:8080
     depends_on:
       - zipkin
+```
+
+### Typical Usage for local Prometheus
+
+Create ``prometheus.yaml`` before running Prometheus.
+
+You should set your IP address or hostname of your application. ``localhost`` is not accessible from Prometheus in Docker.
+Port number is a port of your program that is for waiting Prometheus' access.
+
+```yaml
+global:
+  scrape_interval: 10s
+
+  external_labels:
+    monitor: 'demo'
+
+scrape_configs:
+  - job_name: 'demo'
+
+    scrape_interval: 10s
+
+    static_configs:
+      - targets: ['your-ip-address-or-host:8888']
+```
+
+The ``scrape_configs.static_configs.targets`` should have port number that is specified
+by ``OC_STATS_EXPORTER`` or same parameters of command line.
+
+#### Docker
+
+9090 is a Prometheus Web UI port.
+
+The path of ``prometheus.yml`` should be absolute path.
+
+```bash
+$ docker run --name prometheus --rm -p 9090:9090 -v /abs-path/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+$ OC_TRACE_EXPORTER=prometheus://:8888 ./your-program
+```
+
+#### docker-compose
+
+9090 is a Prometheus Web UI port.
+
+```yaml
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - /abs-path/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    link:
+      - your-service
+  your-service:
+    image: your-service
+    ports:
+      - 8888:8888
+    environment:
+      - OC_STATS_EXPORTER=prometheus://:8888
+```
+
+### Typical Usage for local Graphite
+
+Graphite's Docker images expose 80 port for web UI. The following sample uses 8888 instead of 80.
+
+#### Docker
+
+```bash
+$ docker run -d --name graphite --rm -p 8888:80 -p 2003-2004:2003-2004 graphiteapp/graphite-statsd
+$ OC_TRACE_EXPORTER=zipkin ./your-program
+```
+
+#### docker-compose
+
+```yaml
+version: '3'
+services:
+  graphite:
+    image: graphiteapp/graphite-statsd
+    ports:
+      - 8888:80
+      - 2003-2004:2003-2004
+  your-service:
+    image: your-service
+    environment:
+      - OC_STATS_EXPORTER=graphite
+    link:
+      - graphite
 ```
 
 ## How to Use for Programmers

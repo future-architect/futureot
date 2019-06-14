@@ -60,6 +60,8 @@ func TestSelectStatsExporterOK(t *testing.T) {
 		{"dd", DATADOG, "localhost:8125"},
 		{"prometheus://:8888", PROMETHEUS, "http://:8888"},
 		{"p8s://:8888", PROMETHEUS, "http://:8888"},
+		{"graphite://:2003", GRAPHITE, "localhost:2003"},
+		{"graphite", GRAPHITE, "localhost:2003"},
 	}
 	for _, testcase := range testcases {
 		t.Run(testcase.Source, func(t *testing.T) {

@@ -7,7 +7,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/shibukawa/occonfig"
+	"github.com/future-architect/futureot/occonfig"
 	"go.opencensus.io/stats"
 	"go.opencensus.io/stats/view"
 )
@@ -48,10 +48,8 @@ func main() {
 
 	view.SetReportingPeriod(1 * time.Second)
 
-	go func() {
-		for {
-			stats.Record(ctx, videoCount.M(1), videoSize.M(rand.Int63()))
-			<-time.After(time.Millisecond * time.Duration(1+rand.Intn(400)))
-		}
-	}()
+	for {
+		stats.Record(ctx, videoCount.M(1), videoSize.M(rand.Int63()))
+		<-time.After(time.Millisecond * time.Duration(1+rand.Intn(400)))
+	}
 }

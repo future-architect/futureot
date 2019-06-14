@@ -175,6 +175,94 @@ services:
       - zipkin
 ```
 
+### ローカルのPrometheusの一般的な設定方法
+
+``prometheus.yaml``をPrometheusの実行前に作成してください。
+
+アプリケーションのIPアドレスかホスト名を指定して下さい。 ``localhost`` はDocker内のPrometheusからアクセスできません。
+ポート番号はアプリケーションがPrometheusのアクセスを待ち受けるポートです。
+
+```yaml
+global:
+  scrape_interval: 10s
+
+  external_labels:
+    monitor: 'demo'
+
+scrape_configs:
+  - job_name: 'demo'
+
+    scrape_interval: 10s
+
+    static_configs:
+      - targets: ['your-ip-address-or-host:8888']
+```
+
+``scrape_configs.static_configs.targets``は、``OC_STATS_EXPORTER``やコマンドラインの類似の属性で指定されたのと同じポート番号を設定します。
+
+#### Docker
+
+9090がPrometheusの管理画面のポートになります。
+
+``prometheus.yml``へのパスは絶対パスで指定します。
+
+```bash
+$ docker run --name prometheus --rm -p 9090:9090 -v /abs-path/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+$ OC_TRACE_EXPORTER=prometheus://:8888 ./your-program
+```
+
+#### docker-compose
+
+9090がPrometheusの管理画面のポートになります。
+
+```yaml
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - /abs-path/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    link:
+      - your-service
+  your-service:
+    image: your-service
+    ports:
+      - 8888:8888
+    environment:
+      - OC_STATS_EXPORTER=prometheus://:8888
+```
+
+### ローカルのGraphiteの一般的な設定方法
+
+GraphiteのDockerイメージはWeb UIとして80番ポートを公開していますが、このサンプルでは代わりに8888を使います。
+
+#### Docker
+
+```bash
+$ docker run -d --name graphite --rm -p 8888:80 -p 2003-2004:2003-2004 graphiteapp/graphite-statsd
+$ OC_TRACE_EXPORTER=zipkin ./your-program
+```
+
+#### docker-compose
+
+```yaml
+version: '3'
+services:
+  graphite:
+    image: graphiteapp/graphite-statsd
+    ports:
+      - 8888:80
+      - 2003-2004:2003-2004
+  your-service:
+    image: your-service
+    environment:
+      - OC_STATS_EXPORTER=graphite
+    link:
+      - graphite
+```
+
 ## occonfigライブラリ利用者の設定方法
 
 ```go

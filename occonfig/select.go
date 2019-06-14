@@ -176,6 +176,21 @@ func SelectStatsExporter(host string) (*Exporter, error) {
 			}, nil
 
 		}
+	case "graphite":
+		{
+			host := u.Hostname()
+			port := u.Port()
+			if host == "" {
+				host = "localhost"
+			}
+			if port == "" {
+				port = "2003"
+			}
+			return &Exporter{
+				Type: GRAPHITE,
+				Host: fmt.Sprintf("%s:%s", host, port),
+			}, nil
+		}
 	case "": // no scheme
 		switch u.Path {
 		case "dd":
@@ -184,6 +199,11 @@ func SelectStatsExporter(host string) (*Exporter, error) {
 			return &Exporter{
 				Type: DATADOG,
 				Host: "localhost:8125",
+			}, nil
+		case "graphite":
+			return &Exporter{
+				Type: GRAPHITE,
+				Host: "localhost:2003",
 			}, nil
 		}
 	}

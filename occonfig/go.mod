@@ -6,6 +6,7 @@ replace github.com/future-architect/futureot/exporters/opencensus-go-exporter-za
 
 require (
 	contrib.go.opencensus.io/exporter/aws v0.0.0-20181029163544-2befc13012d0
+	contrib.go.opencensus.io/exporter/graphite v0.0.0-20190325161142-f4bcbbf058a5
 	contrib.go.opencensus.io/exporter/jaeger v0.1.0
 	contrib.go.opencensus.io/exporter/prometheus v0.1.0
 	contrib.go.opencensus.io/exporter/stackdriver v0.9.2
