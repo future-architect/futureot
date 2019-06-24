@@ -17,6 +17,7 @@ const (
 	ZIPKIN
 	HONEYCOMB
 	PROMETHEUS
+	PUSHGATEWAY
 	GRAPHITE
 	ZAP
 )
@@ -174,7 +175,17 @@ func SelectStatsExporter(host string) (*Exporter, error) {
 				Type: PROMETHEUS,
 				Host: fmt.Sprintf("http://:%s", port),
 			}, nil
-
+		}
+	case "pushgateway":
+		{
+			port := u.Port()
+			if port == "" {
+				port = "9091"
+			}
+			return &Exporter{
+				Type: PUSHGATEWAY,
+				Host: fmt.Sprintf("http://:%s", port),
+			}, nil
 		}
 	case "graphite":
 		{

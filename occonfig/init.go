@@ -24,6 +24,7 @@ import (
 	"contrib.go.opencensus.io/exporter/zipkin"
 	"contrib.go.opencensus.io/exporter/graphite"
 	"github.com/future-architect/futureot/exporters/opencensus-go-exporter-zap"
+	"github.com/future-architect/futureot/exporters/opencensus-go-exporter-p8s-pushgateway"
 )
 
 type Mode int
@@ -296,6 +297,15 @@ func Init(mode Mode) (OCConfig, error) {
 					<-exit
 				}()
 			}
+		case PUSHGATEWAY: {
+			pe, err := pushgateway.NewExporter(pushgateway.Options{
+				GatewayEndpoint: exporter.Host,
+			})
+			if err != nil {
+				return finalizer, fmt.Errorf("Failed to create Prometheus pushgateway exporter: %v", err)
+			}
+			view.RegisterExporter(pe)
+		}
 		case GRAPHITE:
 			{
 				ge, err := graphite.NewExporter(graphite.Options{Namespace: config.ServiceName})

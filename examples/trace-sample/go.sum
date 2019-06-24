@@ -5,6 +5,7 @@ cloud.google.com/go v0.36.0 h1:+aCSj7tOo2LODWVEuZDZeGCckdt6MlSF+X/rB3wUiS8=
 cloud.google.com/go v0.36.0/go.mod h1:RUoy9p/M4ge0HzT8L+SDZ8jg+Q6fth0CiBuhFJpSV40=
 contrib.go.opencensus.io/exporter/aws v0.0.0-20181029163544-2befc13012d0 h1:YsbWYxDZkC7x2OxlsDEYvvEXZ3cBI3qBgUK5BqkZvRw=
 contrib.go.opencensus.io/exporter/aws v0.0.0-20181029163544-2befc13012d0/go.mod h1:uu1P0UCM/6RbsMrgPa98ll8ZcHM858i/AD06a9aLRCA=
+contrib.go.opencensus.io/exporter/graphite v0.0.0-20190325161142-f4bcbbf058a5/go.mod h1:sniM1YEZcR+VoRPJOiLDegQYhCeGa/7cizeouZvDmf8=
 contrib.go.opencensus.io/exporter/jaeger v0.1.0 h1:WNc9HbA38xEQmsI40Tjd/MNU/g8byN2Of7lwIjv0Jdc=
 contrib.go.opencensus.io/exporter/jaeger v0.1.0/go.mod h1:VYianECmuFPwU37O699Vc1GOcy+y8kOsfaxHRImmjbA=
 contrib.go.opencensus.io/exporter/ocagent v0.4.7/go.mod h1:+KkYrcvvEN0E5ls626sqMv8PdMx2931feKtzIwP01qI=

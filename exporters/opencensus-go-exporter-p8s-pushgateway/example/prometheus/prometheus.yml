@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: 'batch-job'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['pushgateway:9091']
+        labels:
+          environment: "console"
+          category: "batch-job"

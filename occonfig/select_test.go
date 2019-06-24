@@ -60,6 +60,8 @@ func TestSelectStatsExporterOK(t *testing.T) {
 		{"dd", DATADOG, "localhost:8125"},
 		{"prometheus://:8888", PROMETHEUS, "http://:8888"},
 		{"p8s://:8888", PROMETHEUS, "http://:8888"},
+		{"pushgateway://:9091", PUSHGATEWAY, "http://:9091"},
+		{"pushgateway://", PUSHGATEWAY, "http://:9091"},
 		{"graphite://:2003", GRAPHITE, "localhost:2003"},
 		{"graphite", GRAPHITE, "localhost:2003"},
 	}
